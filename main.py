@@ -1,7 +1,7 @@
 import json
 import boto3
-import ingestors.unsplash_ingestor as ui
-import ingestors.pexels_ingestor as pi
+import ingestors.unsplash_ingestor
+import ingestors.pexels_ingestor
 import ingestors.pixabay_ingestor
 from datetime import datetime
 import argparse
@@ -9,7 +9,7 @@ import argparse
 
 def upload_json_to_s3(json_dict, s3_filename, filename, bucket='777377719930-synthesis-assests-s3'):
     tmp_file = open(f'/tmp/{filename}', 'x')
-    tmp_file.write(json.dumps(json_dict))
+    tmp_file.write(json.dumps(json_dict, indent=4, sort_keys=True))
     tmp_file.close()
     client = boto3.client('s3')
     r = client.upload_file(
@@ -29,9 +29,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     query = args.query[0]
     query_no_space = query.strip().replace(' ', '_')
-    pexels_imgs = ingestors.pexels_ingestor.perform_batch_fetch('aloe')
-    pixabay_imgs = ingestors.pixabay_ingestor.perform_batch_fetch('aloe')
-    photos = pexels_imgs + pixabay_imgs
+    pexels_imgs = ingestors.pexels_ingestor.perform_batch_fetch(query)
+    pixabay_imgs = ingestors.pixabay_ingestor.perform_batch_fetch(query)
+    unsplash_imgs = ingestors.unsplash_ingestor.perform_batch_fetch(query)
+    photos = pexels_imgs + pixabay_imgs + unsplash_imgs
     timestamp = datetime.today().strftime('%Y-%m-%d')
     file = f"raw_photos_for_review/{timestamp}-{query_no_space}.json"
     r = upload_json_to_s3(photos, file, f'{timestamp}-{query_no_space}.json')

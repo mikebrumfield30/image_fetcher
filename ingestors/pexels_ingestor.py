@@ -48,7 +48,7 @@ def parse_width_and_height_from_url(url):
 def format_photos(photos):
     formatted_photos = []
     parsed_photos = photos['photos']
-    first_six = parsed_photos[0:6]
+    first_six = parsed_photos[0:num_images_to_get]
     for img in first_six:
         width, height = parse_width_and_height_from_url(img['src']['large'])
         formatted_photos.append({

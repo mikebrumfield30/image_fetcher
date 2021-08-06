@@ -37,7 +37,7 @@ def get_photos(query):
 def format_photos(photo_results):
     formatted_list = []
     hits = photo_results['hits']
-    first_six = hits[0:6]
+    first_six = hits[0:num_images_to_get]
     for img in first_six:
         formatted_list.append({
             'id': f"pixabay-{img['id']}",
