@@ -3,6 +3,7 @@ import boto3
 import requests
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
+import random
 import os
 
 num_images_to_get = 6
@@ -48,8 +49,10 @@ def parse_width_and_height_from_url(url):
 def format_photos(photos):
     formatted_photos = []
     parsed_photos = photos['photos']
-    first_six = parsed_photos[0:num_images_to_get]
-    for img in first_six:
+    lower = random.randint(0, len(parsed_photos) - (1 + num_images_to_get))
+    higher = lower + num_images_to_get
+    selected_imgs = parsed_photos[lower:higher]
+    for img in selected_imgs:
         width, height = parse_width_and_height_from_url(img['src']['large'])
         formatted_photos.append({
             'id': f"pexels-{img['id']}",

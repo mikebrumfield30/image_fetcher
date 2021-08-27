@@ -4,26 +4,13 @@ import ingestors.unsplash_ingestor
 import ingestors.pexels_ingestor
 import ingestors.pixabay_ingestor
 from datetime import datetime
+from mongo import insert_imgs_for_review
 import argparse
 
 
-def upload_json_to_s3(json_dict, s3_filename, filename, bucket='777377719930-synthesis-assests-s3'):
-    tmp_file = open(f'/tmp/{filename}', 'x')
-    tmp_file.write(json.dumps(json_dict, indent=4, sort_keys=True))
-    tmp_file.close()
-    client = boto3.client('s3')
-    r = client.upload_file(
-        f'/tmp/{filename}',
-        bucket,
-        s3_filename
-    )
-    return r
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Program to get some free images from variety of API's and store "
-                                                 "metadata in s3")
+                                                 "metadata in mongo")
     parser.add_argument('--query', type=str, nargs=1, required=True, help="Search term")
 
     args = parser.parse_args()
@@ -33,9 +20,6 @@ if __name__ == '__main__':
     pixabay_imgs = ingestors.pixabay_ingestor.perform_batch_fetch(query)
     unsplash_imgs = ingestors.unsplash_ingestor.perform_batch_fetch(query)
     photos = pexels_imgs + pixabay_imgs + unsplash_imgs
-    timestamp = datetime.today().strftime('%Y-%m-%d')
-    file = f"raw_photos_for_review/{timestamp}-{query_no_space}.json"
-    r = upload_json_to_s3(photos, file, f'{timestamp}-{query_no_space}.json')
+    insert_imgs_for_review(photos)
     print("Completed processing")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

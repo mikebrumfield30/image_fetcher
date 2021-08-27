@@ -3,6 +3,7 @@ import boto3
 import requests
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
+import random
 
 num_images_to_get = 6
 base_url = "https://api.unsplash.com"
@@ -46,8 +47,10 @@ def parse_width_from_url(url):
 def format_photos(photo_results):
     formatted_list = []
     hits = photo_results['results']
-    first_six = hits[0:num_images_to_get]
-    for img in first_six:
+    lower = random.randint(0, len(hits) - (1 + num_images_to_get))
+    higher = lower + num_images_to_get
+    selected_imgs = hits[lower:higher]
+    for img in selected_imgs:
         formatted_list.append({
             'id': f"unsplash-{img['id']}",
             'url': img['urls']['small'],
