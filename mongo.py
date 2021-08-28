@@ -14,7 +14,6 @@ except Exception:
 
 
 def insert_imgs_for_review(imgs):
-    pprint(f'before {imgs}')
     img_col = raw_db['images_for_review']
 
     accepted_imgs = []
@@ -25,8 +24,6 @@ def insert_imgs_for_review(imgs):
          })
         if existing is None:
             accepted_imgs.append(imgs[_])
-
-    pprint(f'After: {accepted_imgs}')
 
     x = img_col.insert_many(imgs)
     print(x.inserted_ids, x.acknowledged)

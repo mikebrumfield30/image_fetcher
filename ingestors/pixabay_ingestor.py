@@ -35,7 +35,7 @@ def get_photos(query):
     return response.json()
 
 
-def format_photos(photo_results):
+def format_photos(photo_results, plant_name):
     formatted_list = []
     hits = photo_results['hits']
     lower = random.randint(0, len(hits) - (1 + num_images_to_get))
@@ -47,12 +47,13 @@ def format_photos(photo_results):
             'url': img['webformatURL'],
             'height': img['webformatHeight'],
             'width': img['webformatWidth'],
-            'author': img['user']
+            'author': img['user'],
+            'plantName': plant_name
         })
     return formatted_list
 
 
 def perform_batch_fetch(term):
     photos = get_photos(term)
-    formatted_photos = format_photos(photos)
+    formatted_photos = format_photos(photos, term)
     return formatted_photos

@@ -46,7 +46,7 @@ def parse_width_and_height_from_url(url):
     return width, height
 
 
-def format_photos(photos):
+def format_photos(photos, plant_name):
     formatted_photos = []
     parsed_photos = photos['photos']
     lower = random.randint(0, len(parsed_photos) - (1 + num_images_to_get))
@@ -59,12 +59,13 @@ def format_photos(photos):
             'url': img['src']['large'],
             'height': height,
             'width': width,
-            'author': img['photographer']
+            'author': img['photographer'],
+            'plantName': plant_name
         })
     return formatted_photos
 
 
 def perform_batch_fetch(term):
     photos = get_photos(term)
-    formatted_photos = format_photos(photos)
+    formatted_photos = format_photos(photos, term)
     return formatted_photos
