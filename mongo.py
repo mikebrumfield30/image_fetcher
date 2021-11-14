@@ -14,6 +14,9 @@ except Exception:
 
 
 def insert_imgs_for_review(imgs):
+    if len(imgs) == 0:
+        print('No images to insert')
+        return
     img_col = raw_db['images_for_review']
 
     accepted_imgs = []

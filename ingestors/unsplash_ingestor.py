@@ -47,7 +47,14 @@ def parse_width_from_url(url):
 def format_photos(photo_results, plant_name):
     formatted_list = []
     hits = photo_results['results']
-    lower = random.randint(0, len(hits) - (1 + num_images_to_get))
+    if len(hits) == 0:
+        return []
+    print(f'length of parsed photos: {len(hits)}')
+    # need to first check that the length of fetched images is less than the amount requested
+    if len(hits) > num_images_to_get:
+        lower = random.randint(0, len(hits) - (1 + num_images_to_get))
+    else:
+        lower = random.random(0, len(hits))
     higher = lower + num_images_to_get
     selected_imgs = hits[lower:higher]
     for img in selected_imgs:
@@ -62,7 +69,7 @@ def format_photos(photo_results, plant_name):
     return formatted_list
 
 
-def perform_batch_fetch(term):
+def perform_batch_fetch(term, plant_name):
     photos = get_photos(term)
-    formatted_photos = format_photos(photos, term)
+    formatted_photos = format_photos(photos, plant_name)
     return formatted_photos

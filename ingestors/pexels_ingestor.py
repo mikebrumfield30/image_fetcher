@@ -49,7 +49,14 @@ def parse_width_and_height_from_url(url):
 def format_photos(photos, plant_name):
     formatted_photos = []
     parsed_photos = photos['photos']
-    lower = random.randint(0, len(parsed_photos) - (1 + num_images_to_get))
+    print(parsed_photos)
+    if len(parsed_photos) == 0:
+        return []
+    print(f'length of parsed photos: {len(parsed_photos)}')
+    if len(parsed_photos) > num_images_to_get:
+        lower = random.randint(0, len(parsed_photos) - (1 + num_images_to_get))
+    else:
+        lower = random.randint(0, len(parsed_photos))
     higher = lower + num_images_to_get
     selected_imgs = parsed_photos[lower:higher]
     for img in selected_imgs:
@@ -65,7 +72,7 @@ def format_photos(photos, plant_name):
     return formatted_photos
 
 
-def perform_batch_fetch(term):
+def perform_batch_fetch(term, plant_name):
     photos = get_photos(term)
-    formatted_photos = format_photos(photos, term)
+    formatted_photos = format_photos(photos, plant_name)
     return formatted_photos

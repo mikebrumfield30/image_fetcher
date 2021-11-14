@@ -14,4 +14,7 @@ The script takes one argument, --query, that specifies what images to search for
 python3 main.py --query <search_term>
 # E.g.
 python3 main.py --query aloe
+
+# Multiple plants
+python3 main.py --query 'aloe, air plant, banana tree'
 ```
