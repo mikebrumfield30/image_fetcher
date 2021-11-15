@@ -54,7 +54,7 @@ def format_photos(photo_results, plant_name):
     if len(hits) > num_images_to_get:
         lower = random.randint(0, len(hits) - (1 + num_images_to_get))
     else:
-        lower = random.random(0, len(hits))
+        lower = random.randint(0, len(hits))
     higher = lower + num_images_to_get
     selected_imgs = hits[lower:higher]
     for img in selected_imgs:
