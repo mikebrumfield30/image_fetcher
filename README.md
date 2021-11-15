@@ -18,3 +18,16 @@ python3 main.py --query aloe
 # Multiple plants
 python3 main.py --query 'aloe, air plant, banana tree'
 ```
+
+### Reading from a file
+    python3 main.py --input_file input.json
+
+Where `input.json` contains input like:
+```
+[
+    {
+        "plant": "Air Plant",
+        "term": "epiphyte"
+    }
+]
+```
